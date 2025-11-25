@@ -1,0 +1,136 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Provider {
+  id              Int       @id @default(autoincrement())
+  providerDid     String    @unique
+  providerAddress String
+  name            String
+  licenseCid      String?    // IPFS CID of medical license
+  licenseUrl      String?
+  vcCid           String?    // Verifiable Credential CID
+  jwt             String?    // VC JWT - can be large
+  issuerDid       String
+  status          String    @default("PENDING")  // PENDING, APPROVED, REJECTED
+  rejectionReason String?
+  approvedAt      DateTime?
+  approvedBy      String?    // Insurer address
+  issuedAt        DateTime
+  createdAt       DateTime  @default(now())
+  
+  policies        Policy[]
+  
+  @@index([providerDid])
+  @@index([status])
+}
+
+model Policy {
+  id                Int       @id @default(autoincrement())
+  onchainPolicyId   Int       @unique
+  policyVcCid       String?
+  issuerDid         String
+  beneficiaryAddress String
+  beneficiaryDid    String?
+  kycDocCid         String?    // Aadhaar IPFS CID
+  coverageAmount    String     // Store as string to avoid precision loss
+  tier              String    @default("Standard")  // Basic, Standard, Premium
+  premiumPaid       String?    // Amount paid in Wei
+  premiumTxHash     String?    // Transaction hash of premium payment
+  status            String    @default("PENDING")  // PENDING, APPROVED, REJECTED, ACTIVE, EXPIRED
+  rejectionReason   String?
+  refundTxHash      String?    // If policy rejected and refunded
+  approvedAt        DateTime?
+  startEpoch        Int
+  endEpoch          Int
+  providerId        Int
+  createdAt         DateTime  @default(now())
+  
+  provider          Provider  @relation(fields: [providerId], references: [id])
+  claims            Claim[]
+  
+  @@index([onchainPolicyId])
+  @@index([beneficiaryAddress])
+  @@index([status])
+}
+
+model Claim {
+  id                Int       @id @default(autoincrement())
+  onchainClaimId    Int?      @unique
+  policyId          Int
+  patientDid        String
+  patientAddress    String
+  providerAddress   String    @default("")  // Provider who submitted claim
+  providerWallet    String    @default("")  // Wallet to receive payment
+  medicalReportCid  String    @default("")  // IPFS CID of medical report
+  providerVcCid     String    @default("")  // Provider's VC CID
+  fileCid           String?    // Legacy field for backward compatibility
+  amount            String    // Claim amount in Wei
+  status            String    @default("PENDING")  // PENDING, UNDER_REVIEW, APPROVED, REJECTED, PAID
+  payoutAmount      String?   // Actual payout amount
+  payoutTxHash      String?   // Payment transaction hash
+  rejectionReason   String?
+  reviewedAt        DateTime?
+  paidAt            DateTime?
+  txHash            String?   // Legacy
+  createdAt         DateTime  @default(now())
+  
+  policy            Policy    @relation(fields: [policyId], references: [id])
+  
+  @@index([policyId])
+  @@index([patientAddress])
+  @@index([status])
+}
+
+model KYCDocument {
+  id              Int       @id @default(autoincrement())
+  userAddress     String
+  userDid         String?
+  documentType    String    // "AADHAAR", "LICENSE", "PASSPORT"
+  documentCid     String    @unique  // IPFS CID
+  uploadedAt      DateTime  @default(now())
+  verifiedAt      DateTime?
+  verifiedBy      String?   // Insurer/admin address who verified
+  status          String    @default("PENDING")  // PENDING, VERIFIED, REJECTED
+  rejectionReason String?
+  
+  @@index([userAddress])
+  @@index([status])
+  @@index([documentType])
+}
+
+model Payment {
+  id              Int       @id @default(autoincrement())
+  txHash          String    @unique
+  fromAddress     String
+  toAddress       String
+  amount          String    // Wei amount
+  purpose         String    // "PREMIUM", "REFUND", "CLAIM_PAYOUT"
+  relatedId       Int?      // Policy ID or Claim ID
+  relatedType     String?   // "POLICY", "CLAIM"
+  status          String    @default("PENDING")  // PENDING, CONFIRMED, FAILED
+  blockNumber     Int?
+  createdAt       DateTime  @default(now())
+  confirmedAt     DateTime?
+  
+  @@index([txHash])
+  @@index([fromAddress])
+  @@index([toAddress])
+  @@index([purpose])
+  @@index([relatedType, relatedId])
+}
+
+model VeramoIssuer {
+  id        Int      @id @default(autoincrement())
+  alias     String   @unique
+  did       String   @unique
+  createdAt DateTime @default(now())
+}

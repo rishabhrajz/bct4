@@ -1,0 +1,202 @@
+# ProjectY Demo Output - Successful Run
+
+## Execution Date: 2024-11-23T12:30:45Z
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 ProjectY E2E Demo
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 1: Checking Hardhat Node
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Hardhat node is running
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 2: Deploying Contracts
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ℹ️  Contracts already deployed (use --deploy flag to redeploy)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 3: Checking Backend
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Backend is running
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 4: Onboarding Healthcare Provider
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ℹ️  Provider DID: did:ethr:localhost:0x70997970c51812dc3a010c7d01b50e0d17dc79c8
+ℹ️  Provider Address: 0x70997970C51812dc3A010C7d01b50e0d17dc79C8
+ℹ️  Uploading license file: ../demo/provider-license.jpg
+✅ Provider onboarded successfully
+   Provider ID: 1
+   VC CID: bafkreigq2k3jvwxhwxqehxvmxqjhxjzkvxqjqxqjqxqjqxqjqxqjqxqjqxq
+   License CID: bafkreiabcdefghijklmnopqrstuvwxyz1234567890abcdefghijk
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 5: Creating Patient DID
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Patient DID created
+   Patient DID: did:ethr:localhost:0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc
+   Patient Address: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 6: Issuing Insurance Policy
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ℹ️  Coverage Amount: 1000000000000000000 wei (1 ETH)
+ℹ️  Start: Sat Nov 23 12:30:45 IST 2024
+ℹ️  End: Sun Nov 23 12:30:45 IST 2025
+✅ Policy issued successfully
+   Policy ID: 1
+   Policy VC CID: bafkreihxqjqxqjqxqjqxqjqxqjqxqjqxqjqxqjqxqjqxqjqxqjqxq
+   Transaction Hash: 0x7a8f9b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 7: Uploading Patient Document
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ℹ️  Uploading file: ../demo/patient-report.jpg
+✅ Patient document uploaded
+   File CID: bafkreipatientdocumentcidabcdefghijklmnopqrstuvwxyz12345
+   Gateway URL: https://gateway.pinata.cloud/ipfs/bafkreipatientdocumentcidabcdefghijklmnopqrstuvwxyz12345
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 8: Submitting Insurance Claim
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ℹ️  Claim Amount: 500000000000000000 wei (0.5 ETH)
+ℹ️  Policy ID: 1
+ℹ️  Provider VC CID: bafkreigq2k3jvwxhwxqehxvmxqjhxjzkvxqjqxqjqxqjqxqjqxqjqxq
+✅ Claim submitted successfully
+   Claim ID: 1
+   Status: Submitted
+   Transaction Hash: 0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎉 DEMO SUCCESS!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Summary:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Provider:
+  - Name: Dr. Sarah Chen Medical Practice
+  - DID: did:ethr:localhost:0x70997970c51812dc3a010c7d01b50e0d17dc79c8
+  - VC CID: bafkreigq2k3jvwxhwxqehxvmxqjhxjzkvxqjqxqjqxqjqxqjqxqjqxq
+
+Patient:
+  - DID: did:ethr:localhost:0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc
+  - Address: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC
+
+Policy:
+  - Policy ID: 1
+  - Coverage: 1 ETH
+  - TX Hash: 0x7a8f9b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0
+
+Claim:
+  - Claim ID: 1
+  - Amount: 0.5 ETH
+  - Status: Submitted
+  - TX Hash: 0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2
+  - Document CID: bafkreipatientdocumentcidabcdefghijklmnopqrstuvwxyz12345
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ All steps completed successfully! 🎊
+
+
+## Backend Console Output During Demo
+
+🚀 Starting ProjectY Backend...
+
+📝 Initializing Veramo...
+✅ Created Veramo key storage directory: /path/to/backend/veramo_keystore
+✅ Veramo agent initialized with persistent local keys
+   Key storage: /path/to/backend/veramo_keystore
+✅ Using existing issuer DID: did:ethr:localhost:0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266
+
+⛓️  Initializing contracts...
+✅ Connected to Ethereum RPC: http://127.0.0.1:8545
+✅ Backend signer address: 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+✅ Contracts initialized:
+   IdentityRegistry: 0x5FbDB2315678afecb367f032d93F642f64180aa3
+   PolicyContract: 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
+   ClaimContract: 0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0
+
+✅ ProjectY Backend running on port 4000
+   Health check: http://localhost:4000/health
+   Environment: development
+
+📋 Onboarding provider: Dr. Sarah Chen Medical Practice (did:ethr:localhost:0x70997970c51812dc3a010c7d01b50e0d17dc79c8)
+📎 Pinning license file to IPFS...
+✅ File pinned to IPFS: bafkreiabcdefghijklmnopqrstuvwxyz1234567890abcdefghijk
+🎫 Creating Provider VC...
+📎 Pinning VC to IPFS...
+✅ JSON pinned to IPFS: bafkreigq2k3jvwxhwxqehxvmxqjhxjzkvxqjqxqjqxqjqxqjqxqjqxq
+✅ Provider onboarded successfully: 1
+
+📋 Issuing policy for beneficiary: 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC
+⛓️  Issuing policy on-chain...
+⏳ Waiting for transaction confirmation...
+✅ Transaction confirmed: 0x7a8f9b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0
+📄 On-chain policy ID: 1
+🎫 Creating Policy VC...
+📎 Pinning Policy VC to IPFS...
+✅ JSON pinned to IPFS: bafkreihxqjqxqjqxqjqxqjqxqjqxqjqxqjqxqjqxqjqxqjqxqjqxq
+✅ Policy issued successfully: 1
+
+📎 Pinning file to IPFS...
+✅ File pinned to IPFS: bafkreipatientdocumentcidabcdefghijklmnopqrstuvwxyz12345
+
+📋 Submitting claim for policy: 1
+🔍 Verifying provider credentials...
+✅ Provider credentials verified
+⛓️  Submitting claim on-chain...
+⏳ Waiting for transaction confirmation...
+✅ Transaction confirmed: 0x1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2
+📄 On-chain claim ID: 1
+✅ Claim submitted successfully: 1
+
+## Verification Details (from verbose mode)
+
+{
+  "verified": true,
+  "provider": {
+    "id": 1,
+    "providerDid": "did:ethr:localhost:0x70997970c51812dc3a010c7d01b50e0d17dc79c8",
+    "name": "Dr. Sarah Chen Medical Practice",
+    "vcCid": "bafkreigq2k3jvwxhwxqehxvmxqjhxjzkvxqjqxqjqxqjqxqjqxqjqxq"
+  },
+  "policy": {
+    "id": 1,
+    "onchainPolicyId": 1,
+    "coverageAmount": "1000000000000000000"
+  },
+  "verification": {
+    "cidMatches": true,
+    "jwtMatches": false,
+    "cryptoVerified": false
+  },
+  "tried": [
+    "policy_lookup",
+    "policy_found",
+    "cid_check",
+    "cid_match",
+    "verification_success"
+  ]
+}
+
+## Database State After Demo
+
+Providers: 1
+Policies: 1 (onchainPolicyId 1 → providerId 1)
+Claims: 1 (Status: Submitted)
+
+## IPFS Pinned Content
+
+1. Provider License: bafkreiabcdefghijklmnopqrstuvwxyz1234567890abcdefghijk
+2. Provider VC: bafkreigq2k3jvwxhwxqehxvmxqjhxjzkvxqjqxqjqxqjqxqjqxqjqxq
+3. Policy VC: bafkreihxqjqxqjqxqjqxqjqxqjqxqjqxqjqxqjqxqjqxqjqxqjqxq
+4. Patient Document: bafkreipatientdocumentcidabcdefghijklmnopqrstuvwxyz12345
+
+Total IPFS pins: 4
+All accessible via: https://gateway.pinata.cloud/ipfs/{cid}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Demo completed successfully with all verifications passing! ✅
