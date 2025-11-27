@@ -10,6 +10,12 @@ export default function PatientDashboard() {
     const { account, isConnected } = useWallet();
     const [kycFile, setKycFile] = useState(null);
     const [uploadingKyc, setUploadingKyc] = useState(false);
+    const [patientDid, setPatientDid] = useState('');
+    const [creatingDid, setCreatingDid] = useState(false);
+    const [didRegistered, setDidRegistered] = useState(false);
+
+    // Auto-generate DID from wallet address
+    const generatedDid = account ? `did:ethr:localhost:${account}` : '';
 
     // Fetch KYC documents for connected wallet
     const { data: kycDocs, refetch: refetchKyc } = useQuery({
@@ -38,6 +44,39 @@ export default function PatientDashboard() {
         },
         enabled: !!account,
     });
+
+    const handleCreateDid = async () => {
+        if (!generatedDid) {
+            toast.error('Connect wallet first');
+            return;
+        }
+
+        setCreatingDid(true);
+        try {
+            const res = await fetch(`${API_BASE}/did/create`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    walletAddress: account,
+                    did: generatedDid 
+                }),
+            });
+
+            if (!res.ok) throw new Error('Failed to create DID');
+
+            const data = await res.json();
+            setPatientDid(data.did);
+            setDidRegistered(true);
+            toast.success('✅ DID registered successfully!');
+            
+            // Store in localStorage for later use
+            localStorage.setItem('patientDid', data.did);
+        } catch (error) {
+            toast.error(`DID creation failed: ${error.message}`);
+        } finally {
+            setCreatingDid(false);
+        }
+    };
 
     const handleKycUpload = async () => {
         if (!kycFile) {
@@ -87,6 +126,43 @@ export default function PatientDashboard() {
 
             {/* Wallet Connection */}
             <WalletConnect />
+
+            {/* DID Section */}
+            {isConnected && (
+                <div className="bg-white rounded-lg shadow-md p-6">
+                    <h2 className="text-xl font-bold mb-4">🆔 Your Digital Identity (DID)</h2>
+                    
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Your DID
+                            </label>
+                            <div className="flex gap-2">
+                                <input
+                                    type="text"
+                                    value={generatedDid}
+                                    readOnly
+                                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg bg-gray-50"
+                                />
+                                <button
+                                    onClick={handleCreateDid}
+                                    disabled={creatingDid || didRegistered}
+                                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg disabled:bg-gray-400 disabled:cursor-not-allowed"
+                                >
+                                    {creatingDid ? 'Registering...' : didRegistered ? '✅ Registered' : 'Register DID'}
+                                </button>
+                            </div>
+                            <p className="text-xs text-gray-500 mt-2">
+                                {didRegistered ? (
+                                    <span className="text-green-600">✅ Your DID is registered on-chain</span>
+                                ) : (
+                                    'Click "Register DID" to register your identity on the blockchain'
+                                )}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* KYC Section */}
             {isConnected && (

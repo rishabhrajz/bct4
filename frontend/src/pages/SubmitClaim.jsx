@@ -101,8 +101,16 @@ export default function SubmitClaim() {
         setResponse(null);
         setErrors({});
 
+        // Additional validation for policyId
+        const parsedPolicyId = parseInt(formData.policyId);
+        if (isNaN(parsedPolicyId) || parsedPolicyId <= 0) {
+            showToast('Please enter a valid Policy ID (must be a positive number)', 'error');
+            setLoading(false);
+            return;
+        }
+
         const payload = {
-            policyId: parseInt(formData.policyId),
+            policyId: parsedPolicyId,
             patientDid: formData.patientDid.trim(),
             patientAddress: formData.patientAddress.trim(),
             fileCid: formData.fileCid.trim(),
