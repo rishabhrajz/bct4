@@ -63,6 +63,15 @@ async function main() {
     fs.writeFileSync(deploymentPath, JSON.stringify(deploymentInfo, null, 2));
     console.log("📄 Deployment info written to:", deploymentPath, "\n");
 
+    // Also copy to frontend public directory
+    const frontendDeploymentsDir = path.join(__dirname, '../../frontend/public/deployments');
+    if (!fs.existsSync(frontendDeploymentsDir)) {
+        fs.mkdirSync(frontendDeploymentsDir, { recursive: true });
+    }
+    const frontendDeploymentPath = path.join(frontendDeploymentsDir, 'deployed.json');
+    fs.copyFileSync(deploymentPath, frontendDeploymentPath);
+    console.log("📄 Deployment info copied to frontend:", frontendDeploymentPath, "\n");
+
     console.log("🎉 Deployment complete!\n");
     console.log("Contract Addresses:");
     console.log("  IdentityRegistry:", identityRegistryAddress);

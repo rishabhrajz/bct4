@@ -87,7 +87,10 @@ contract ClaimContract is ReentrancyGuard, Ownable {
     }
     
     modifier onlyApprovedProvider() {
-        require(policyContract.isProviderApproved(msg.sender), "Provider not approved");
+        // Allow insurer (backend) to submit on behalf of providers
+        if (msg.sender != insurerAddress) {
+            require(policyContract.isProviderApproved(msg.sender), "Provider not approved");
+        }
         _;
     }
     

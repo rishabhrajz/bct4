@@ -57,6 +57,54 @@ export default function ProviderOnboard() {
 
         setSubmitting(true);
         try {
+            // Step 1: Upload license to IPFS first to get CID
+            toast('Uploading license to IPFS...');
+            const uploadFormData = new FormData();
+            uploadFormData.append('file', licenseFile);
+
+            const uploadRes = await fetch(`${API_BASE}/file/upload`, {
+                method: 'POST',
+                body: uploadFormData,
+            });
+
+            if (!uploadRes.ok) throw new Error('License upload failed');
+
+            const uploadData = await uploadRes.json();
+            const licenseCid = uploadData.fileCid;
+            toast.success('✅ License uploaded to IPFS');
+
+            // Step 2: Register provider on-chain using MetaMask
+            toast('📝 Registering provider on blockchain...');
+
+            // Import ethers from package
+            const { ethers } = await import('ethers');
+
+            if (!window.ethereum) {
+                throw new Error('Please install MetaMask');
+            }
+
+            const provider = new ethers.BrowserProvider(window.ethereum);
+            const signer = await provider.getSigner();
+
+            // Import deployed contract address
+            const contractsResponse = await fetch('/deployments/deployed.json');
+            const deploymentData = await contractsResponse.json();
+
+            const policyContract = new ethers.Contract(
+                deploymentData.contracts.PolicyContract,
+                [
+                    'function requestProviderApproval(string memory did, string memory licenseCid) external'
+                ],
+                signer
+            );
+
+            const tx = await policyContract.requestProviderApproval(providerDid, licenseCid);
+            toast('⏳ Waiting for blockchain confirmation...');
+            await tx.wait();
+            toast.success('✅ Provider registered on blockchain!');
+
+            // Step 3: Submit to backend for database storage
+            toast('💾 Saving to database...');
             const formData = new FormData();
             formData.append('file', licenseFile);
             formData.append('providerDid', providerDid);

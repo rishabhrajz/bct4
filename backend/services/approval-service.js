@@ -1,4 +1,6 @@
 import { PrismaClient } from '@prisma/client';
+import { getContracts } from '../contract-service.js';
+
 const prisma = new PrismaClient();
 
 /**
@@ -21,20 +23,23 @@ async function approveProvider(providerId, insurerAddress) {
 
     console.log(`✅ Provider ${provider.providerDid} approved in database by ${insurerAddress}`);
 
-    // Also approve provider on-chain so they can submit claims
+    // Approve provider on-chain (provider must already be registered)
     try {
       const { policyContract, signer } = getContracts();
       if (signer) {
         console.log(`⛓️  Approving provider ${provider.providerAddress} on-chain...`);
-        const tx = await policyContract.approveProvider(provider.providerAddress);
-        await tx.wait();
-        console.log(`✅ Provider approved on-chain: ${tx.hash}`);
+
+        // Providers now register themselves during onboarding
+        // So we just need to approve them here
+        const approveTx = await policyContract.approveProvider(provider.providerAddress);
+        await approveTx.wait();
+        console.log(`✅ Provider approved on-chain: ${approveTx.hash}`);
       }
     } catch (onchainError) {
       console.error('⚠️  Failed to approve provider on-chain (but database updated):', onchainError.message);
+      console.error('Provider may not be registered on-chain. They need to register via /provider page first.');
       // Don't throw - database approval succeeded even if on-chain failed
     }
-
     return provider;
   } catch (error) {
     console.error('Error approving provider:', error);
